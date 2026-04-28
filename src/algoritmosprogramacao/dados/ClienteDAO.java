@@ -28,7 +28,7 @@ public class ClienteDAO {
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null,
-                    "Erro ao adicionar usuário!");
+                    "Erro ao adicionar cliente!");
             throw new RuntimeException(e);
         }
     }

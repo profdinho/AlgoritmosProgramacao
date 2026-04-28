@@ -4,6 +4,7 @@
  */
 package algoritmosprogramacao.interfacegrafica;
 
+import algoritmosprogramacao.dados.ClienteDAO;
 import javax.swing.JOptionPane;
 
 /**
@@ -110,12 +111,15 @@ public class TelaLogin extends javax.swing.JFrame {
         String senha;
         login = txtLogin.getText();
         senha = new String(txtSenha.getPassword());
-        if (login.equalsIgnoreCase("Admin") && senha.equals("123456")){
+        ClienteDAO clienteDAO = new ClienteDAO();
+        
+        if (clienteDAO.logarCliente(login, senha)){
             JOptionPane.showMessageDialog(this, "Login correto!");
         }
         else {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos!");
         }
+        
     }//GEN-LAST:event_btnLogarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed

@@ -4,6 +4,7 @@
  */
 package algoritmosprogramacao.interfacegrafica;
 
+import algoritmosprogramacao.dados.ClienteDAO;
 import algoritmosprogramacao.modelo.Cliente;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -199,6 +200,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                             new Date(df.parse(dataNascimento).getTime());
                     cliente.setDataNascimento(nascimento);
                     cliente.setSenha(senha);
+                    ClienteDAO clienteDAO = new ClienteDAO();
+                    clienteDAO.inserirCliente(cliente);
                     JOptionPane.showMessageDialog(this,
                             "Cliente cadastrado!");
                     TelaLogin telaLogin = new TelaLogin();
