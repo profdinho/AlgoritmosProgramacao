@@ -53,5 +53,32 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public Cliente buscarClientePorEmail(String login) {
+        String sql = "SELECT * FROM cliente " +
+                    " WHERE email = ?";
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, login);
+            ResultSet rs = ps.executeQuery();
+            Cliente cliente = new Cliente();
+            if (rs.next()) {
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCelular(rs.getString("celular"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setDataNascimento(rs.getDate("nascimento"));
+                return cliente;
+            }
+            else {
+                return cliente;
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao buscar cliente!");
+            throw new RuntimeException(e);
+        }
+    }
     
 }

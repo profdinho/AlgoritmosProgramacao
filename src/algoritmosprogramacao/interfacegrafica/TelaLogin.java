@@ -114,7 +114,10 @@ public class TelaLogin extends javax.swing.JFrame {
         ClienteDAO clienteDAO = new ClienteDAO();
         
         if (clienteDAO.logarCliente(login, senha)){
-            JOptionPane.showMessageDialog(this, "Login correto!");
+            //JOptionPane.showMessageDialog(this, "Login correto!");
+            TelaExtrato telaExtrato = new TelaExtrato(login);
+            telaExtrato.setVisible(true);
+            this.dispose();
         }
         else {
             JOptionPane.showMessageDialog(this, "Login ou senha incorretos!");
