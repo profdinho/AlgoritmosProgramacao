@@ -5,7 +5,13 @@
 package algoritmosprogramacao.interfacegrafica;
 
 import algoritmosprogramacao.dados.ClienteDAO;
+import algoritmosprogramacao.dados.LancamentosDAO;
 import algoritmosprogramacao.modelo.Cliente;
+import algoritmosprogramacao.modelo.Lancamentos;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,10 +34,27 @@ public class TelaExtrato extends javax.swing.JFrame {
         Cliente cliente = clienteDAO.buscarClientePorEmail(login);
         txtId.setText(String.valueOf(cliente.getId()));
         txtNome.setText(cliente.getNome());
+        LancamentosDAO lancamentosDAO = new LancamentosDAO();
+        List<Lancamentos> lista = 
+                lancamentosDAO.buscarLancamentosPorId(
+                        cliente.getId());
+        DefaultTableModel model = 
+                (DefaultTableModel) tblExtrato.getModel();
+        for (Lancamentos lancamentos : lista) {
+            String formatoData = "dd/MM/yyyy hh:mm";
+            SimpleDateFormat sdfData = 
+                    new SimpleDateFormat(formatoData);
+            String dataHora = 
+                    sdfData.format(lancamentos.getDataHora());
+            double valor = lancamentos.getValor();
+            String tipo = lancamentos.getTipo();
+            model.addRow(new Object[]{dataHora, valor,
+                    tipo});
+        }
         /*
         CREATE TABLE lancamentos (
             id_cliente int not null,
-            data_hota TIMESTAMP not null default NOW(),
+            data_hora TIMESTAMP not null default NOW(),
             valor FLOAT not null,
             tipo VARCHAR not null
         )
