@@ -26,6 +26,24 @@ public class TelaCadastro extends javax.swing.JFrame {
     public TelaCadastro() {
         initComponents();
     }
+    
+    public TelaCadastro(int id) {
+        initComponents();
+        System.out.println("ID: " + id);
+        txtID.setText(String.valueOf(id));
+        ClienteDAO clienteDAO = new ClienteDAO();
+        System.out.println("Buscar cliente");
+        Cliente cliente = clienteDAO.buscarClientePorId(id);
+        txtNome.setText(cliente.getNome());
+        txtCelular.setText(cliente.getCelular());
+        txtEmail.setText(cliente.getEmail());
+        System.out.println("Formatação data");
+        SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
+        txtDataNascimento.setText(sdfData.format(cliente.getDataNascimento()));
+        txtSenha.setText(cliente.getSenha());
+        txtConfirmar.setText(cliente.getSenha());
+        btnCadastrar.setText("Modificar");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -201,11 +219,21 @@ public class TelaCadastro extends javax.swing.JFrame {
                     cliente.setDataNascimento(nascimento);
                     cliente.setSenha(senha);
                     ClienteDAO clienteDAO = new ClienteDAO();
-                    clienteDAO.inserirCliente(cliente);
-                    JOptionPane.showMessageDialog(this,
+                    if (txtID.getText().equals("")) {
+                        clienteDAO.inserirCliente(cliente);
+                        JOptionPane.showMessageDialog(this,
                             "Cliente cadastrado!");
-                    TelaLogin telaLogin = new TelaLogin();
-                    telaLogin.setVisible(true);
+                        TelaLogin telaLogin = new TelaLogin();
+                        telaLogin.setVisible(true);
+                    }
+                    else {
+                        clienteDAO.modificarCliente(cliente);
+                        JOptionPane.showMessageDialog(this,
+                            "Cliente modificado!");
+                        TelaExtrato telaExtrato =
+                                new TelaExtrato(cliente.getEmail());
+                        telaExtrato.setVisible(true);
+                    }
                     this.dispose();
                 } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(this,

@@ -80,5 +80,60 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public Cliente buscarClientePorId(int id) {
+        String sql = "SELECT * FROM cliente " +
+                    " WHERE id = ?";
+        System.out.println("ID: " + id);
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            Cliente cliente = new Cliente();
+            if (rs.next()) {
+                System.out.println("Entrou if");
+                cliente.setId(rs.getInt("id"));
+                cliente.setNome(rs.getString("nome"));
+                cliente.setCelular(rs.getString("celular"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setDataNascimento(rs.getDate("nascimento"));
+                cliente.setSenha(rs.getString("senha"));
+                return cliente;
+            }
+            else {
+                System.out.println("Entrou else");
+                return cliente;
+            }
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao buscar cliente!");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void modificarCliente(Cliente cliente) {
+        String sql = "UPDATE cliente SET nome = ?,"
+                + " celular = ?, email = ?, nascimento = ?,"
+                + " senha = ?"
+                + " WHERE id = ?";
+        try {
+            System.out.println("Try modificar");
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setString(1, cliente.getNome());
+            ps.setString(2, cliente.getCelular());
+            ps.setString(3, cliente.getEmail());
+            ps.setDate(4, cliente.getDataNascimento());
+            ps.setString(5, cliente.getSenha());
+            ps.setInt(6, cliente.getId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao modificar cliente!");
+            throw new RuntimeException(e);
+        }
+        
+    }
     
 }
