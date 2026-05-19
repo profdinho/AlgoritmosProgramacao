@@ -29,15 +29,12 @@ public class TelaCadastro extends javax.swing.JFrame {
     
     public TelaCadastro(int id) {
         initComponents();
-        System.out.println("ID: " + id);
         txtID.setText(String.valueOf(id));
         ClienteDAO clienteDAO = new ClienteDAO();
-        System.out.println("Buscar cliente");
         Cliente cliente = clienteDAO.buscarClientePorId(id);
         txtNome.setText(cliente.getNome());
         txtCelular.setText(cliente.getCelular());
         txtEmail.setText(cliente.getEmail());
-        System.out.println("Formatação data");
         SimpleDateFormat sdfData = new SimpleDateFormat("dd/MM/yyyy");
         txtDataNascimento.setText(sdfData.format(cliente.getDataNascimento()));
         txtSenha.setText(cliente.getSenha());
@@ -70,6 +67,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         txtDataNascimento = new javax.swing.JFormattedTextField();
         btnCancelar = new javax.swing.JButton();
         btnCadastrar = new javax.swing.JButton();
+        btnApagar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,6 +100,9 @@ public class TelaCadastro extends javax.swing.JFrame {
         btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(this::btnCadastrarActionPerformed);
 
+        btnApagar.setText("Apagar");
+        btnApagar.addActionListener(this::btnApagarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,6 +111,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnApagar)
+                        .addGap(18, 18, 18)
                         .addComponent(btnCadastrar)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar))
@@ -167,7 +170,8 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(btnCadastrar))
+                    .addComponent(btnCadastrar)
+                    .addComponent(btnApagar))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -183,22 +187,22 @@ public class TelaCadastro extends javax.swing.JFrame {
         String confirmar = new String(txtConfirmar.getPassword());
         String mensagem = "";        
         if (nome.equals("")) {
-            mensagem += "Nome obrigatório\n";
+            mensagem += "Nome obrigatï¿½rio\n";
         }
         String regexCel = "^\\(?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}$";
         if (!celular.matches(regexCel)) {
-            mensagem += "Celular inválido\n";
+            mensagem += "Celular invï¿½lido\n";
         }
         String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";        
         if (!email.matches(regexEmail)) {
-            mensagem += "E-mail inválido\n";
+            mensagem += "E-mail invï¿½lido\n";
         }
         String regexData = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
         if (!dataNascimento.matches(regexData)) {
-            mensagem += "Data de nascimento inválida\n";
+            mensagem += "Data de nascimento invï¿½lida\n";
         }
         if (senha.equals("")){
-            mensagem += "Senha obrigatório\n";
+            mensagem += "Senha obrigatï¿½rio\n";
         }
         if (mensagem.equals("")) {
             if (!senha.equals(confirmar)) {
@@ -227,6 +231,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                         telaLogin.setVisible(true);
                     }
                     else {
+                        cliente.setId(Integer.parseInt(txtID.getText()));
                         clienteDAO.modificarCliente(cliente);
                         JOptionPane.showMessageDialog(this,
                             "Cliente modificado!");
@@ -237,7 +242,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                     this.dispose();
                 } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(this,
-                            "Data inválida!");
+                            "Data invï¿½lida!");
                 }
             }
         }
@@ -248,10 +253,32 @@ public class TelaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        TelaLogin telaLogin = new TelaLogin();
-        telaLogin.setVisible(true);
-        this.dispose();
+        if (txtID.getText().equals("")){
+            TelaLogin telaLogin = new TelaLogin();
+            telaLogin.setVisible(true);
+            this.dispose();
+        }
+        else{
+            TelaExtrato telaExtrato = new TelaExtrato();
+            telaExtrato.setVisible(true);
+            this.dispose();
+        }
+        
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        int resposta = JOptionPane.showConfirmDialog(this, 
+                "Deseja realmente apagar?");
+        if (resposta == JOptionPane.YES_OPTION){
+            ClienteDAO clienteDAO = new ClienteDAO();
+            clienteDAO.apagarCliente(Integer.parseInt(txtID.getText()));
+            JOptionPane.showMessageDialog(this,
+                    "Cliente apagado com sucesso!");
+            TelaLogin telaLogin = new TelaLogin();
+            telaLogin.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnApagarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,6 +306,7 @@ public class TelaCadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApagar;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel lblCelular;

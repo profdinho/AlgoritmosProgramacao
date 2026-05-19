@@ -84,14 +84,12 @@ public class ClienteDAO {
     public Cliente buscarClientePorId(int id) {
         String sql = "SELECT * FROM cliente " +
                     " WHERE id = ?";
-        System.out.println("ID: " + id);
         try {
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             Cliente cliente = new Cliente();
             if (rs.next()) {
-                System.out.println("Entrou if");
                 cliente.setId(rs.getInt("id"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setCelular(rs.getString("celular"));
@@ -101,7 +99,6 @@ public class ClienteDAO {
                 return cliente;
             }
             else {
-                System.out.println("Entrou else");
                 return cliente;
             }
         }
@@ -118,7 +115,6 @@ public class ClienteDAO {
                 + " senha = ?"
                 + " WHERE id = ?";
         try {
-            System.out.println("Try modificar");
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setString(1, cliente.getNome());
             ps.setString(2, cliente.getCelular());
@@ -126,7 +122,7 @@ public class ClienteDAO {
             ps.setDate(4, cliente.getDataNascimento());
             ps.setString(5, cliente.getSenha());
             ps.setInt(6, cliente.getId());
-            ps.execute();
+            ps.executeUpdate();
         }
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null,
@@ -134,6 +130,23 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         }
         
+    }
+
+    public void apagarCliente(int id) {
+        String sql = "DELETE FROM cliente"
+                + " WHERE id = ?";
+        try {
+            LancamentosDAO lancamentosDAO = new LancamentosDAO();
+            lancamentosDAO.apagarLancamentos(id);
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao apagar cliente!");
+            throw new RuntimeException(e);
+        }
     }
     
 }

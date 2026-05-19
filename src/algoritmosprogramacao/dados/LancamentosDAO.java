@@ -38,4 +38,19 @@ public class LancamentosDAO {
         }
         return lista;
     }
+    
+    public void apagarLancamentos(int id) {
+        String sql = "DELETE FROM lancamentos"
+                + " WHERE id_cliente = ?";
+        try {
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao apagar lançamentos!");
+            throw new RuntimeException(e);
+        }
+    }
 }
