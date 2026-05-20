@@ -21,6 +21,7 @@ public class TelaExtrato extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaExtrato.class.getName());
 
+    private String login;
     /**
      * Creates new form TelaExtrato
      */
@@ -30,6 +31,7 @@ public class TelaExtrato extends javax.swing.JFrame {
     
     public TelaExtrato(String login) {
         initComponents();
+        this.login = login;
         ClienteDAO clienteDAO = new ClienteDAO();
         Cliente cliente = clienteDAO.buscarClientePorEmail(login);
         txtId.setText(String.valueOf(cliente.getId()));
@@ -81,6 +83,8 @@ public class TelaExtrato extends javax.swing.JFrame {
         pnlExtrato = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExtrato = new javax.swing.JTable();
+        btnDepositar = new javax.swing.JButton();
+        btnSacar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,6 +156,12 @@ public class TelaExtrato extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btnDepositar.setText("Depositar");
+        btnDepositar.addActionListener(this::btnDepositarActionPerformed);
+
+        btnSacar.setText("Sacar");
+        btnSacar.addActionListener(this::btnSacarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -160,7 +170,12 @@ public class TelaExtrato extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlExtrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlExtrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDepositar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(btnSacar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -168,9 +183,17 @@ public class TelaExtrato extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlExtrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pnlExtrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(btnDepositar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSacar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -183,6 +206,20 @@ public class TelaExtrato extends javax.swing.JFrame {
         telaCadastro.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepositarActionPerformed
+        int id = Integer.parseInt(txtId.getText());
+        TelaMovimentacao telaMovimentacao = new TelaMovimentacao(id, "D", this.login);
+        telaMovimentacao.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnDepositarActionPerformed
+
+    private void btnSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarActionPerformed
+        int id = Integer.parseInt(txtId.getText());
+        TelaMovimentacao telaMovimentacao = new TelaMovimentacao(id, "S", this.login);
+        telaMovimentacao.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSacarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,7 +247,9 @@ public class TelaExtrato extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDepositar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnSacar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNome;

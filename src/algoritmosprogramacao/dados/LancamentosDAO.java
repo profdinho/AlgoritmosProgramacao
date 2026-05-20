@@ -53,4 +53,77 @@ public class LancamentosDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void depositar(int id, double valor) {
+        String sql = "INSERT INTO lancamentos"
+                + "(id_cliente, valor, tipo)"
+                + " VALUES (?, ?, ?)";
+        try{
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setDouble(2, valor);
+            ps.setString(3, "C");
+            ps.execute();
+        }
+        catch(SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao depositar!");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sacar(int id, double valor) {
+        String sql = "INSERT INTO lancamentos"
+                + "(id_cliente, valor, tipo)"
+                + " VALUES (?, ?, ?)";
+        try{
+            double resultado = verificarSaldo(id);
+            if (resultado >= valor) {
+                PreparedStatement ps = conexao.prepareStatement(sql);
+                ps.setInt(1, id);
+                ps.setDouble(2, valor);
+                ps.setString(3, "D");
+                ps.execute();
+            }
+            else {
+                JOptionPane.showMessageDialog(null,
+                        "Saldo insuficiente!");
+            }
+        }
+        catch(SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao sacar!");
+            throw new RuntimeException(e);
+        }
+    }
+    
+    private double verificarSaldo(int id){
+        String sqlCredito = "SELECT SUM(valor) AS total"
+                + " FROM lancamentos"
+                + " WHERE id_cliente = ?"
+                + " GROUP BY tipo"
+                + " HAVING tipo = 'C'";
+        String sqlDebito = "SELECT SUM(valor) AS total"
+                + " FROM lancamentos"
+                + " WHERE id_cliente = ?"
+                + " GROUP BY tipo"
+                + " HAVING tipo = 'D'";
+        double resultado = 0;
+        try {
+            PreparedStatement psCredito = conexao.prepareStatement(sqlCredito);
+            psCredito.setInt(1, id);
+            ResultSet rsCredito = psCredito.executeQuery();
+            PreparedStatement psDebito = conexao.prepareStatement(sqlDebito);
+            psDebito.setInt(1, id);
+            ResultSet rsDebito = psDebito.executeQuery();
+            if (rsCredito.next() && rsDebito.next()) {
+                resultado += rsCredito.getDouble("total");
+                resultado -= rsDebito.getDouble("total");
+            }
+            return resultado;
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erro ao buscar lançamentos!");
+            throw new RuntimeException(e);
+        }
+    }
 }
