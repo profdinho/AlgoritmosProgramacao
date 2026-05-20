@@ -114,8 +114,10 @@ public class LancamentosDAO {
             PreparedStatement psDebito = conexao.prepareStatement(sqlDebito);
             psDebito.setInt(1, id);
             ResultSet rsDebito = psDebito.executeQuery();
-            if (rsCredito.next() && rsDebito.next()) {
+            if (rsCredito.next()){
                 resultado += rsCredito.getDouble("total");
+            }
+            if (rsDebito.next()) {
                 resultado -= rsDebito.getDouble("total");
             }
             return resultado;
