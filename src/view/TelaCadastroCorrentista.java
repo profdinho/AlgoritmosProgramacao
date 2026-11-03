@@ -4,6 +4,11 @@
  */
 package view;
 
+import controller.CorrentistaController;
+import javax.swing.JOptionPane;
+import model.Correntista;
+
+
 /**
  *
  * @author dinho
@@ -11,7 +16,7 @@ package view;
 public class TelaCadastroCorrentista extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroCorrentista.class.getName());
-
+    CorrentistaController correntistaController = new CorrentistaController();
     /**
      * Creates new form TelaCadastroCorrentista
      */
@@ -103,8 +108,10 @@ public class TelaCadastroCorrentista extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtObservacoes);
 
         btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(this::btnCadastrarActionPerformed);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -196,6 +203,51 @@ public class TelaCadastroCorrentista extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        Correntista correntista = new Correntista();
+        correntista.setNome(txtNome.getText().trim());
+        correntista.setCpf(txtCpf.getText().trim());
+        correntista.setEmail(txtEmail.getText().trim());
+        correntista.setTelefone(txtTelefone.getText().trim());
+        correntista.setDataNascimento(txtDataNascimento.getText().trim());
+        correntista.setTipoConta((String) cmbTipoConta.getSelectedItem());
+        if (rbtPF.isSelected()) {
+            correntista.setTipoPessoa("PF");   
+        }
+        else if (rbtPJ.isSelected()) {
+            correntista.setTipoPessoa("PJ");
+        }
+        else {
+            correntista.setTipoPessoa("");
+        }
+        correntista.setSenha(new String(txtSenha.getPassword()));
+        correntista.setObservacoes(
+            txtObservacoes.getText() == null ? "" : txtObservacoes.getText().trim());
+        String erros = correntistaController.validarDados(correntista);
+        if (erros != null) {
+            JOptionPane.showMessageDialog(this, erros,
+                    "Dados inválidos", JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            int opcao = JOptionPane.showConfirmDialog(this,
+                "Confirmar o cadastro do correntista?", "Revisão",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (opcao == JOptionPane.OK_OPTION) {
+                String falha = correntistaController.cadastrar(correntista);
+                if (falha == null) {
+                    JOptionPane.showMessageDialog(this,
+                        "Cadastro realizado com sucesso",
+                        "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    //this.dispose();
+                }
+            }
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
