@@ -1,47 +1,78 @@
 # Algoritmos e Programação
 
-Projeto Java Swing utilizado como exemplo nas aulas da UC de Algoritmos e
-Programação da Universidade São Judas, Unidade São Bernardo do Campo.
+Aplicação desktop em Java Swing usada como exemplo nas aulas da UC de
+Algoritmos e Programação da Universidade São Judas, unidade São Bernardo do
+Campo.
 
-## Estrutura do Projeto
+O projeto apresenta uma tela de login e um formulário de cadastro de
+correntista, com campos como nome, CPF, e-mail, telefone, data de nascimento,
+tipo de conta, tipo de pessoa, senha e observações.
 
-O projeto está organizado da seguinte forma:
+## Funcionalidades
 
-- `src/view/TelaInicial.java`: Classe principal e tela de login da aplicação.
-- `src/view/TelaInicial.form`: Formulário da tela gerenciado pelo NetBeans.
-- `nbproject/`: Configurações do projeto NetBeans.
-- `build.xml`: Script de compilação do Apache Ant.
-- `test/`: Diretório reservado para testes automatizados.
+- Login de demonstração.
+- Formulário de cadastro de correntista com máscaras para CPF, telefone e data.
+- Seleção de tipo de conta e de pessoa (física ou jurídica).
+- Modelo `Correntista` para representar os dados do formulário.
+
+> **Atenção:** este é um projeto didático. O login atualmente usa as
+> credenciais fixas `admin` e `123456`, e os dados do cadastro não são
+> persistidos.
+
+## Tecnologias
+
+- Java 21
+- Java Swing
+- Apache Ant
+- NetBeans
+
+## Estrutura do projeto
+
+```text
+src/
+├── model/
+│   └── Correntista.java
+└── view/
+    ├── TelaInicial.java
+    ├── TelaInicial.form
+    ├── TelaCadastroCorrentista.java
+    └── TelaCadastroCorrentista.form
+nbproject/                 # Configurações do projeto NetBeans
+build.xml                  # Script de compilação do Apache Ant
+test/                      # Diretório reservado para testes
+```
+
+Os arquivos `.form` são mantidos pelo editor visual do NetBeans. Evite editar
+manualmente o código gerado entre os blocos indicados pelo IDE.
 
 ## Pré-requisitos
 
-- Java Development Kit (JDK) 21 ou superior instalado.
-- Apache Ant instalado e disponível no `PATH` para a compilação pelo terminal.
-- NetBeans IDE (recomendado para projetos NetBeans).
+- JDK 21 ou superior instalado.
+- Apache Ant instalado e disponível no `PATH`.
+- NetBeans IDE (opcional, recomendado para editar os formulários).
 
-## Como Executar
+## Executar pelo NetBeans
 
-1. Clone ou baixe o projeto para o seu computador.
-2. Abra o NetBeans IDE.
-3. Selecione "File" > "Open Project" e navegue até a pasta do projeto (`AlgoritmosProgramacao`).
-4. Abra o projeto no NetBeans.
-5. Execute o projeto pela opção "Run Project".
+1. Abra o NetBeans.
+2. Selecione **File > Open Project** e escolha a pasta do projeto.
+3. Execute **Run Project**.
 
 A classe principal configurada no projeto é `view.TelaInicial`.
 
-## Compilação Manual
+## Compilar e executar pelo terminal
 
-Se preferir compilar manualmente:
+Na raiz do projeto, execute:
 
-1. Abra um terminal na pasta raiz do projeto.
-2. Execute o comando:
+```bash
+ant clean
+ant compile
+java -cp build/classes view.TelaInicial
+```
 
-   ```bash
-   ant compile
-   ```
+Para gerar o arquivo JAR de distribuição:
 
-3. Para executar a aplicação:
+```bash
+ant jar
+```
 
-   ```bash
-   java -cp build/classes view.TelaInicial
-   ```
+O artefato será criado em `dist/InterfaceGrafica.jar`.
