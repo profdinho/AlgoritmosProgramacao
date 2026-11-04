@@ -65,7 +65,6 @@ public class CorrentistaController {
         if (erro != null) {
             return erro;
         }
-        //correntista.setObservacoes(observacoes == null ? "" : observacoes.trim());
         correntistas.add(correntista);
         return null;
     }

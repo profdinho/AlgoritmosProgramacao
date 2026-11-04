@@ -49,24 +49,30 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="lblSenha" pref="80" max="32767" attributes="0"/>
-                              <Component id="lblLogin" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="lblSenha" pref="80" max="32767" attributes="0"/>
+                                  <Component id="lblLogin" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtLogin" max="32767" attributes="0"/>
+                                  <Component id="txtSenha" pref="120" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtLogin" max="32767" attributes="0"/>
-                              <Component id="txtSenha" pref="120" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="btnLogar" min="-2" pref="80" max="-2" attributes="0"/>
+                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                              <Component id="btnFechar" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="btnLogar" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="55" max="32767" attributes="0"/>
-                          <Component id="btnFechar" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+                          <Component id="btnCadastrar" min="-2" pref="119" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="164" max="32767" attributes="0"/>
@@ -91,7 +97,9 @@
                       <Component id="btnLogar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnFechar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="185" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="156" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -125,6 +133,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnCadastrar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Criar Correntista"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
